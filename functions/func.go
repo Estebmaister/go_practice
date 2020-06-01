@@ -1,4 +1,4 @@
-package main
+package functions
 
 import "fmt"
 
@@ -23,7 +23,8 @@ func getLikesAndShares(postID int) (int, int) {
 	return likesForPost, sharesForPost
 }
 
-func main() {
+// Example run a function with a given integer between 1 and 4
+func Example() {
 	var likes, shares int
 
 	likes, shares = getLikesAndShares(2)

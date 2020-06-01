@@ -1,4 +1,4 @@
-package main
+package pointers
 
 import "fmt"
 
@@ -8,7 +8,7 @@ func brainwash(saying *string) {
 	*saying = "Beep Boop."
 }
 
-func main() {
+func point() {
 	greeting := "Hello there!"
 	// Calling brainwash() with a pointer:
 	brainwash(&greeting)

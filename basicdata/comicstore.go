@@ -1,8 +1,9 @@
-package main
+package basicdata
 
 import "fmt"
 
-func main() {
+// ComicStore manage strings, integers and float numbers in memory
+func ComicStore() {
 	// Creating the variables for our comic books
 	var publisher, writer, artist, title string
 	var year, pageNumber uint

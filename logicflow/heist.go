@@ -1,4 +1,4 @@
-package main
+package logicflow
 
 import (
 	"fmt"
@@ -6,7 +6,8 @@ import (
 	"time"
 )
 
-func main() {
+// Heist make a simulation of a heist with random events
+func Heist() {
 	rand.Seed(time.Now().UnixNano())
 	var isHeistOn bool
 	isHeistOn = true

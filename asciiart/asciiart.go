@@ -1,11 +1,12 @@
-package main
+package asciiart
 
 import (
 	"fmt"
 	t "time"
 )
 
-func main() {
+// ASCIIArt makes and illustration of a dog and a goopher and print it in the console
+func ASCIIArt() {
 	fmt.Println(t.Now())
 	fmt.Println("  __      _")
 	fmt.Println("o'')}____//")

@@ -1,4 +1,4 @@
-package main
+package random
 
 import (
 	"fmt"
@@ -6,7 +6,8 @@ import (
 	"time"
 )
 
-func main() {
+// Events set some random variables to invoke events if the condition is given
+func Events() {
 	// Create a new seed for every run
 	rand.Seed(time.Now().UnixNano())
 

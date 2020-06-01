@@ -13,6 +13,7 @@ import "fmt"
 // assumption that each day of the year (excluding February 29) is
 // equally probable for a birthday.
 
+// Proba calculates the probability of two person in a room having the same birthday date
 func Proba() {
 	p := 1.0
 	for i := 1; i <= 153; i++ {
