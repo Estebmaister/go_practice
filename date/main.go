@@ -1,4 +1,4 @@
-package date
+package main
 
 import (
 	"encoding/json"
