@@ -3,14 +3,12 @@ package main
 import (
 	"fmt"
 	"reflect"
-	// "go-starting/channels"
-	// "go-starting/server"
-	// "go-starting/statistics"
+	// "github.com/estebmaister/go_practice/channels"
+	// "github.com/estebmaister/go_practice/server"
 )
 
 func main() {
 	// greeting()
-	// statistics.Proba()
 	// channels.LogChannel()
 
 	// Server functions
