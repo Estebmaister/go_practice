@@ -1,3 +1,5 @@
+// to modified the marshing parsing check the following url
+// https://blog.charmes.net/post/json-dates-go/
 package main
 
 import (
@@ -14,7 +16,7 @@ type myDate struct {
 func main() {
 
 	// Managing dates in golang default format
-	dateNow := time.Now()
+	dateNow := time.Now().UTC()
 	fmt.Println(dateNow, "\n")
 
 	dateStruct := myDate{dateNow, &dateNow}
@@ -22,4 +24,13 @@ func main() {
 
 	dateJSON, _ := json.Marshal(dateStruct)
 	fmt.Printf("%s \n\n", dateJSON)
+
+	// Other formats
+	now := time.Now()
+	// Display the time as RFC3339 (same as JSON) (not UTC)
+	fmt.Printf("%s\n", now.Format(time.RFC3339))
+	// Display the timestamp
+	fmt.Printf("%+v\n", now.Unix())
+	// Display only the hour/minute
+	fmt.Printf("%s\n", now.Format("3:04PM"))
 }
