@@ -18,11 +18,11 @@ func main() {
 
 	// Managing dates in golang default format
 	dateNow := time.Now().UTC()
-	fmt.Println(dateNow)
+	fmt.Println("Default print:", dateNow)
 	dateStruct := myDate{dateNow, &dateNow}
-	fmt.Printf("%+v \n", dateStruct)
+	fmt.Printf("Struct print:  %+v \n", dateStruct)
 	dateJSON, _ := json.Marshal(dateStruct)
-	fmt.Printf("%s \n\n", dateJSON)
+	fmt.Printf("JSON print:    %s \n\n", dateJSON)
 
 	// Parsing from Unix format
 	if intDate, err := strconv.ParseInt("1641221067", 10, 64); err != nil {
