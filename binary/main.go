@@ -6,6 +6,11 @@ import (
 	"strconv"
 )
 
+func main() {
+	DecToBin()
+	//BinToDec()
+}
+
 func convertBinaryToDecimal(number int) int {
 	decimal := 0
 	counter := 0.0
@@ -20,7 +25,39 @@ func convertBinaryToDecimal(number int) int {
 	return decimal
 }
 
-func main() {
+func convertDecimalToBinary(number int) int {
+	binary := 0
+	counter := 1
+	remainder := 0
+
+	for number != 0 {
+		remainder = number % 2
+		number = number / 2
+		binary += remainder * counter
+		counter *= 10
+
+	}
+	return binary
+}
+
+func DecToBin() {
+	var decimal int64
+
+	fmt.Print("Enter Decimal Number: ")
+	fmt.Scanln(&decimal)
+
+	output := strconv.FormatInt(decimal, 2)
+	fmt.Printf("Output %s\n\n", output)
+
+	var decimalMath int
+
+	fmt.Print("Enter Decimal Number: ")
+	fmt.Scanln(&decimalMath)
+
+	fmt.Printf("Output %d", convertDecimalToBinary(decimalMath))
+}
+
+func BinToDec() {
 	var binary string
 	fmt.Print("Enter Binary Number: ")
 	fmt.Scanln(&binary)
@@ -35,5 +72,4 @@ func main() {
 	fmt.Print("Enter Binary Number: ")
 	fmt.Scanln(&binaryMath)
 	fmt.Printf("Output with math %d", convertBinaryToDecimal(binaryMath))
-
 }

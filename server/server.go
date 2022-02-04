@@ -9,7 +9,7 @@ import (
 	"os/signal"
 	"time"
 
-	"go-starting/server/handlers"
+	"github.com/estebmaister/go_practice/server/handlers"
 )
 
 const (
