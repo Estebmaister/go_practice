@@ -8,11 +8,19 @@ import (
 // ASCIIArt makes and illustration of a dog and a goopher and print it in the console
 func ASCIIArt() {
 	fmt.Println(t.Now())
+	printDoggy()
+	fmt.Println()
+	printGopher()
+}
+
+func printDoggy() {
 	fmt.Println("  __      _")
 	fmt.Println("o'')}____//")
 	fmt.Println(" `_/      )")
 	fmt.Println(" (_(_/-(_/ ")
-	fmt.Println()
+}
+
+func printGopher() {
 	fmt.Println("    `.-::::::-.`    ")
 	fmt.Println(".:-::::::::::::::-:.")
 	fmt.Println("`_:::    ::    :::_`")
