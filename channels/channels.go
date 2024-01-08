@@ -5,56 +5,54 @@ import (
 	"sync"
 )
 
-type Elemento struct {
-	Tipo string
+type Element struct {
+	Type string
+}
+
+var e1 = Element{
+	Type: "Type A",
+}
+var e2 = Element{
+	Type: "Type B",
+}
+
+func channelSender(channel <-chan Element, channelName string) {
+	for e := range channel {
+		fmt.Printf("Received element %v in %s", e, channelName)
+		// time.Sleep(4 * time.Second)
+		for i := 0; i < 1000000000; i++ {
+			// nothing but still takes time
+		}
+	}
 }
 
 func Channels() {
 
-	e1 := Elemento{
-		Tipo: "Tipo A",
-	}
+	array := []Element{e1, e2, e1, e2, e1, e2, e1, e2}
 
-	e2 := Elemento{
-		Tipo: "Tipo B",
-	}
+	channelA := make(chan Element)
+	channelB := make(chan Element)
+	defer close(channelA)
+	defer close(channelB)
 
-	arreglo := []Elemento{e1, e2, e1, e2, e1, e2, e1, e2}
-
-	channelA := make(chan Elemento)
-	channelB := make(chan Elemento)
-
+	// Constructing the w-group with the # elements to pass
 	wg := &sync.WaitGroup{}
-	wg.Add(len(arreglo))
+	wg.Add(len(array))
 
-	go func(channel <-chan Elemento) {
-		for e := range channel {
-			fmt.Println("Recibido A", e)
-			for i := 0; i < 1000000000; i++ {
-			}
-		}
-	}(channelA)
+	go channelSender(channelA, "Channel A")
+	go channelSender(channelB, "Channel B")
 
-	go func(channel <-chan Elemento) {
-		for e := range channel {
-			fmt.Println("Recibido B", e)
-			// time.Sleep(4 * time.Second)
-			for i := 0; i < 100000000; i++ {
-			}
-		}
-	}(channelB)
-
-	for _, e := range arreglo {
-		go func(e Elemento) {
-			if e.Tipo == "Tipo A" {
-				fmt.Println("Antes de mandar A")
+	for _, e := range array {
+		go func(e Element) {
+			if e.Type == "Type A" {
+				fmt.Println("Before sending A")
 				channelA <- e
-				fmt.Println("Después de mandar A")
+				fmt.Println("After sending A")
 			}
-			if e.Tipo == "Tipo B" {
-				fmt.Println("Antes de mandar B")
+			if e.Type == "Type B" {
+				fmt.Println("Before sending B")
 				channelB <- e
-				fmt.Println("Después de mandar B")
+				fmt.Println("After sending B")
 			}
 			wg.Done()
 		}(e)
