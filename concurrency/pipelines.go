@@ -2,6 +2,7 @@ package concurrency
 
 import (
 	"fmt"
+	// "math/big"
 	"math/rand"
 	"runtime"
 	"sync"
@@ -109,12 +110,17 @@ func fanIn[T any](done <-chan struct{}, channels ...<-chan T) <-chan T {
 // It returns a channel that will receive filtered prime ints.
 func primeFinder(done <-chan struct{}, randIntStream <-chan int) <-chan int {
 	isPrime := func(randomInt int) bool {
+		if randomInt != 2 && randomInt%2 == 0 {
+			return false
+		}
 		for i := randomInt - 1; i > 1; i-- {
 			if randomInt%i == 0 {
 				return false
 			}
 		}
 		return true
+		// efficient way avoided to test delay on execution
+		// return big.NewInt(int64(randomInt)).ProbablyPrime(0)
 	}
 
 	primes := make(chan int)
