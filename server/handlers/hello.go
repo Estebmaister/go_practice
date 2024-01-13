@@ -19,5 +19,8 @@ func (h *Hello) ServeHTTP(rw http.ResponseWriter, _ *http.Request) {
 	// Printing to the console
 	h.l.Println("Hello from server handler")
 	// Writing data to the response
-	rw.Write([]byte("Hello to the server\n"))
+	_, err := rw.Write([]byte("Hello to the server\n"))
+	if err != nil {
+		h.l.Println("Error during hello response write", err)
+	}
 }

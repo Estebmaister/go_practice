@@ -3,8 +3,9 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"io/ioutil"
+	"log/slog"
 	"os"
+	"runtime/debug"
 	"strings"
 
 	"github.com/Jeffail/gabs/v2"
@@ -14,21 +15,34 @@ var jsonPath = "./ex.json"
 
 func main() {
 
-	reader := bufio.NewReader(os.Stdin)
-	fmt.Println("Simple Shell")
-	fmt.Println("---------------------")
+	handler := slog.NewJSONHandler(os.Stdout, nil)
+	buildInfo, _ := debug.ReadBuildInfo()
+	logger := slog.New(handler)
+	logger = logger.With(
+		slog.Group("program_info",
+			slog.Int("pid", os.Getpid()),
+			slog.String("go_version", buildInfo.GoVersion),
+		),
+	)
+	slog.SetDefault(logger)
+	slog.Info("Simple shell interface, json reader")
 
+	fmt.Println("-----------------------------------")
+	fmt.Println("Commands: hi, json")
+
+	reader := bufio.NewReader(os.Stdin)
 	for {
 		fmt.Print("-> ")
-		text, _ := reader.ReadString('\n')
+		input, _ := reader.ReadString('\n')
 		// convert CRLF to LF
-		text = strings.Replace(text, "\n", "", -1)
+		// input = strings.Replace(input, "\n", "", -1)
+		input = strings.Trim(input, "\n ")
 
-		if strings.Compare("hi", text) == 0 {
+		if strings.EqualFold("hi", input) {
 			fmt.Println("hello, Yourself")
 		}
 
-		if strings.Compare("json", text) == 0 {
+		if strings.Compare("json", input) == 0 {
 			readJson(jsonPath)
 		}
 	}
@@ -37,12 +51,13 @@ func main() {
 
 func readJson(path string) {
 
-	jsonFile, err := ioutil.ReadFile(path)
+	jsonFile, err := os.ReadFile(path)
 	if err != nil {
 		fmt.Printf("Error %s reading alias config from path %s", err, path)
 		return
 	}
 
+	fmt.Println("Parsing example json elastic response with gabs")
 	jsonDoc, err := gabs.ParseJSON(jsonFile)
 	if err != nil {
 		fmt.Printf("Error %s parsing alias config as gabs container", err)
@@ -51,22 +66,28 @@ func readJson(path string) {
 
 	jsonTotal, ok := jsonDoc.Path("total").Data().(float64)
 	if !ok {
-		fmt.Printf("ok: %v,total: %v \n", ok, jsonTotal)
+		fmt.Println("No path 'total' found or incorrect type assertion")
 		return
 	}
 
-	idsArray := make([]string, 0)
-	for index := 0; index < int(jsonTotal); index++ {
-		jsonVal := jsonDoc.Path(fmt.Sprintf("hits.%d.Id", index)).Data()
+	fmt.Println("Extracting outlets IDs values from hits")
+	outIDs := make([]string, 0)
+	for idx := 0; idx < int(jsonTotal); idx++ {
+		jsonVal := jsonDoc.Path(fmt.Sprintf("hits.%d.Id", idx)).Data()
 		jsonData, ok := jsonVal.(string)
 		if ok {
 			if strings.Contains(jsonData, "outlet") {
-				idsArray = append(idsArray, jsonData)
+				outIDs = append(outIDs, jsonData)
 			}
 		} else {
 			fmt.Printf("value: %+v, type: %T \n", jsonVal, jsonVal)
 		}
 	}
 
-	fmt.Printf("len: %d, values: %s \n", len(idsArray), strings.ReplaceAll(fmt.Sprintf("%+q", idsArray), `" "`, `","`))
+	fmt.Printf(
+		"total_hits_reported: %f, outlets: %d, id_values: %s \n",
+		jsonTotal,
+		len(outIDs),
+		strings.ReplaceAll(fmt.Sprintf("%+q", outIDs), `" "`, `","`),
+	)
 }

@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func greeting() {
+func Greeting() {
 	var name string
 	var age int
 	fmt.Println("What's your name (One word) and age (in numbers)? Ex: Esteban 28")

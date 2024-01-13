@@ -8,8 +8,8 @@ import (
 
 func main() {
 	print("Starting from main\n\n")
-	// greeting()
-	// nilDiffs()
+	// Greeting()
+	NilDiffs()
 
 	concurrency.PrimesPipeline(10)
 	// channels.LogChannel()

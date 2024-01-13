@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"os"
 	"os/signal"
+	"syscall"
 	"time"
 
 	"github.com/estebmaister/go_practice/server/handlers"
@@ -49,14 +50,23 @@ func Run() {
 		}
 	}()
 
-	sigChan := make(chan os.Signal)
-	signal.Notify(sigChan, os.Interrupt)
-	signal.Notify(sigChan, os.Kill)
+	sigChan := make(chan os.Signal, 2)
+	signal.Notify(sigChan,
+		os.Interrupt,
+		syscall.SIGHUP,
+		syscall.SIGINT,
+		syscall.SIGTERM,
+		syscall.SIGQUIT,
+	)
 
 	sig := <-sigChan
 	l.Println("Received terminate, graceful shutdown", sig)
 	//os.Notify
 
-	tc, _ := context.WithTimeout(context.Background(), 30*time.Second)
-	s.Shutdown(tc)
+	tc, cancel := context.WithTimeout(context.Background(), 30*time.Second)
+	defer cancel()
+	err := s.Shutdown(tc)
+	if err != nil {
+		l.Panic("Problem during shutdown", err)
+	}
 }
