@@ -22,6 +22,7 @@ func PrimesPipeline(n int) {
 	done := make(chan struct{})
 	defer close(done) // closing all when finishing
 
+	rand := rand.New(rand.NewSource(7))
 	randNumFetcher := func() int { return rand.Intn(500_000_000) }
 	randIntStream := repeatFunc(done, randNumFetcher)
 
