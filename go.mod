@@ -1,6 +1,6 @@
 module github.com/estebmaister/go_practice
 
-go 1.18
+go 1.21
 
 require (
 	github.com/Jeffail/gabs/v2 v2.6.1
