@@ -1,8 +1,8 @@
-package main
+package interviews
 
 import "testing"
 
-func Test_BinaryGap(t *testing.T) {
+func TestBinaryGap(t *testing.T) {
 	type args struct {
 		n int
 	}
