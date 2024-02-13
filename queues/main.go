@@ -2,6 +2,7 @@ package main
 
 import (
 	"os"
+	"time"
 )
 
 func main() {
@@ -12,8 +13,12 @@ func main() {
 	}
 
 	addr := "localhost:9092"
-
+	// Launch producer
 	go producer(addr, topic, []string{"second", "attempt"})
 
-	consumer(addr, topic)
+	// Launch consumer and close it after timeout
+	done := make(chan struct{})
+	go consumer(addr, topic, done)
+	time.Sleep(20 * time.Second)
+	close(done)
 }

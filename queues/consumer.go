@@ -2,12 +2,12 @@ package main
 
 import (
 	"context"
-	"fmt"
+	"log"
 
 	"github.com/segmentio/kafka-go"
 )
 
-func consumer(addr, topic string) {
+func consumer(addr, topic string, doneChan <-chan struct{}) {
 
 	// Create a consumer
 	reader := kafka.NewReader(kafka.ReaderConfig{
@@ -21,11 +21,17 @@ func consumer(addr, topic string) {
 	// Read messages
 	defer reader.Close()
 	for {
-		msg, err := reader.ReadMessage(context.TODO())
-		if err == nil {
-			fmt.Println("Received message from", topic, ":", string(msg.Value))
-		} else {
-			fmt.Println(err)
+		select {
+		case <-doneChan:
+			log.Println("Consumer closed")
+			return
+		default:
+			msg, err := reader.ReadMessage(context.TODO())
+			if err == nil {
+				log.Println("Received message from", topic, ":", string(msg.Value))
+			} else {
+				log.Println(err)
+			}
 		}
 	}
 }
