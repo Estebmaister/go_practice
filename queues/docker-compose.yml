@@ -1,0 +1,38 @@
+version: '3'
+services:
+
+  kafka:
+    container_name: kafka
+    image: confluentinc/cp-kafka:latest
+    # restart: always
+    depends_on:
+      - zookeeper
+    network_mode: host
+    environment:
+      KAFKA_BROKER_ID: 1
+      KAFKA_ZOOKEEPER_CONNECT: localhost:2181
+      ALLOW_PLAINTEXT_LISTENER: "yes"
+      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://localhost:9092,PLAINTEXT_HOST://localhost:29092
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
+      KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR: 1
+    volumes:
+      - kafka-queue:/var/lib/kafka/data
+      - kafka-queue:/etc/kafka/secrets
+
+  zookeeper:
+    container_name: zookeeper
+    image: confluentinc/cp-zookeeper:latest
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+      ZOOKEEPER_TICK_TIME: 2000
+    network_mode: host
+    volumes:
+      - kafka-queue:/var/lib/zookeeper/data
+      - kafka-queue:/var/lib/zookeeper/log
+      - kafka-queue:/etc/zookeeper/secrets
+
+
+volumes:
+  kafka-queue:
+    driver: local
