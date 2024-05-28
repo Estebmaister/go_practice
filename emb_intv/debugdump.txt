@@ -1,0 +1,22 @@
+== Info:   Trying 127.0.0.1:8080...
+== Info: Connected to localhost (127.0.0.1) port 8080 (#0)
+=> Send header, 84 bytes (0x54)
+0000: GET /status HTTP/1.1
+0016: Host: localhost:8080
+002c: User-Agent: curl/7.81.0
+0045: Accept: */*
+0052: 
+== Info: Mark bundle as not supporting multiuse
+<= Recv header, 17 bytes (0x11)
+0000: HTTP/1.1 200 OK
+<= Recv header, 37 bytes (0x25)
+0000: Date: Thu, 15 Feb 2024 22:15:35 GMT
+<= Recv header, 20 bytes (0x14)
+0000: Content-Length: 16
+<= Recv header, 41 bytes (0x29)
+0000: Content-Type: text/plain; charset=utf-8
+<= Recv header, 2 bytes (0x2)
+0000: 
+<= Recv data, 16 bytes (0x10)
+0000: {"status": "ok"}
+== Info: Connection #0 to host localhost left intact
