@@ -1,0 +1,49 @@
+output:
+  sort-results: true
+
+linters-settings:
+  errcheck:
+    check-type-assertions: true
+  wsl:
+    allow-assign-and-anything: false
+  exhaustruct:
+    exclude:
+      - 'cobra\.Command$'
+      - '.*'
+  varnamelen:
+    min-name-length: 1
+
+issues:
+  exclude-rules:
+    - path: migrations/...
+      linters:
+        - gochecknoinits
+        - forbidigo
+        - wrapcheck
+    - path: app/models/...
+      linters:
+        - nestif
+    - path: cmd
+      linters:
+        - forbidigo
+        - gochecknoglobals
+        - gochecknoinits
+    - source: "DB|CONN|ENV|migrations"
+      linters:
+        - gochecknoglobals
+    - text: TODO
+      linters:
+        - godox
+  
+linters:
+  enable-all: true
+  disable:
+    - exhaustivestruct
+    - gci
+    - paralleltest
+    - gofumpt
+
+    # deprecated
+    - interfacer
+    - scopelint
+    - maligned
