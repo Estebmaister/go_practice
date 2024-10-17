@@ -4,6 +4,15 @@ import (
 	"fmt"
 )
 
+// DynamicArray solves the problem of dynamic array
+// n = number of sequences
+// q = number of queries
+// queries = [type, x, y] type = 1: append y to sequence x, type = 2: print last answer of sequence x
+// returns the last answers of each query of type 2
+func DynamicArray(n int32, queries [][]int32) []int32 {
+	return dynamicArray(n, queries)
+}
+
 func dynamicArray(n int32, queries [][]int32) []int32 {
 	defer func() {
 		if r := recover(); r != nil {

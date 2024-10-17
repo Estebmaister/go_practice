@@ -4,6 +4,7 @@ import (
 	"fmt"
 )
 
+// binaryGap returns the length of longest binary gap of given integer.
 func binaryGap(n int) int {
 	binaryN := fmt.Sprintf("%b", n)
 	// fmt.Println(binaryN)

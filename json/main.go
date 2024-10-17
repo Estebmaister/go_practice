@@ -13,6 +13,13 @@ import (
 
 var jsonPath = "./ex.json"
 
+const (
+	GREETINGS = "hi"
+	JSON      = "json"
+	EXIT      = "exit"
+)
+
+// Simple shell interface, json reader
 func main() {
 
 	handler := slog.NewJSONHandler(os.Stdout, nil)
@@ -28,7 +35,7 @@ func main() {
 	slog.Info("Simple shell interface, json reader")
 
 	fmt.Println("-----------------------------------")
-	fmt.Println("Commands: hi, json")
+	fmt.Println("Commands:", GREETINGS, JSON, EXIT)
 
 	reader := bufio.NewReader(os.Stdin)
 	for {
@@ -38,12 +45,16 @@ func main() {
 		// input = strings.Replace(input, "\n", "", -1)
 		input = strings.Trim(input, "\n ")
 
-		if strings.EqualFold("hi", input) {
+		if strings.EqualFold(GREETINGS, input) {
 			fmt.Println("hello, Yourself")
 		}
 
-		if strings.Compare("json", input) == 0 {
+		if strings.Compare(JSON, input) == 0 {
 			readJson(jsonPath)
+		}
+
+		if input == EXIT {
+			break
 		}
 	}
 

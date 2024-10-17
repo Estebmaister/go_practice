@@ -26,7 +26,7 @@ func ForEach() {
 	for emp := range emps {
 		fmt.Println("Emp Id: ", emp, " Name: ", emps[emp])
 	}
-	/* Iterate Unicode charactes of a String*/
+	/* Iterate Unicode characters of a String*/
 	for index, character := range "本語日" {
 		fmt.Printf("%#U  position %d\n", character, index)
 	}
