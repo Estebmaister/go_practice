@@ -16,6 +16,10 @@ import (
  * The function accepts STRING_ARRAY grid as parameter.
  */
 
+// cavityMap function returns a string array
+// with the same values as the input grid
+// but with the cells that are not surrounded
+// by bigger cells replaced by an "X"
 func cavityMap(grid []string) []string {
 	n := len(grid)
 	newGrid := make([]string, n)
