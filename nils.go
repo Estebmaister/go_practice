@@ -1,53 +1,55 @@
 package main
 
 import (
-	"fmt"
 	"reflect"
 )
 
 func NilDiffs() {
-	fmt.Println(
+	println(
 		"Difference between a normal 'nil'",
 		"and an empty interface:\n ",
 	)
-	AdultNil := adult(17) // Returns nil
-	// AdultNil.randomMethod() // Panic nil pointer
+	AdultNil := NewAdult(17) // Returns nil
+	// AdultNil.BuyWithCard() // Panic nil pointer
 
-	AdultInterface := adult(23)
-	AdultInterface.randomMethod()
+	AdultInterface := NewAdult(23)
+	AdultInterface.BuyWithCard()
 
-	fmt.Println(
+	println(
 		"Using reflect type,\n 'pure nil':",
 		reflect.TypeOf(AdultNil),
 		"vs 'interface nil':",
 		reflect.TypeOf(&AdultInterface),
 	) // different values
 
-	fmt.Println("pure nil == interface nil?\n",
+	println("pure nil == interface nil?\n",
 		AdultNil == AdultInterface,
 	) // false
 
-	fmt.Println("Printing both values:\n",
+	println("Printing both values:\n",
 		AdultNil,
 		AdultInterface,
 	) // same value printed
 }
 
-type random interface {
-	randomMethod()
+type CreditCardOwner interface {
+	BuyWithCard()
 }
 
-type implRandom struct{}
+type AdultWithCreditCard struct{}
 
 // Needs to be assign to pointer to be called from interface
-func (i *implRandom) randomMethod() {
-	// Do nothing
+func (i *AdultWithCreditCard) BuyWithCard() {
+	// If the pointer is nill but not used, the method still can be called
+	print("Buying with credit card")
 }
 
-func adult(n int) random {
+func NewAdult(n int) CreditCardOwner {
 	if n < 18 {
-		return nil
+		// Returns a nil value with the interface type
+		return nil // This should be avoided
 	}
-	var a *implRandom = nil
+	var a *AdultWithCreditCard = nil
+	// Returns a pointer to a nil value with the struct type
 	return a
 }

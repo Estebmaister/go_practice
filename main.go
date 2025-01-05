@@ -4,10 +4,17 @@ import (
 	"github.com/estebmaister/go_practice/concurrency"
 	// "github.com/estebmaister/go_practice/channels"
 	// "github.com/estebmaister/go_practice/server"
+	"fmt"
 )
 
+func printValues[A, B any, C comparable](a, a1 A, b B, c C, d B) {
+	fmt.Println(a, a1, b, c, d)
+}
 func main() {
-	print("Starting from main\n\n")
+	println("Starting from main\n")
+
+	printValues(1, 2, 3, "c", 4.1)
+
 	// Greeting()
 	NilDiffs()
 
@@ -20,4 +27,17 @@ func main() {
 	// server.Host, server.Port
 	// )
 	// server.Run()
+}
+
+func Greeting() {
+	var name string
+	var age int
+	fmt.Println("What's your name (One word) and age (in numbers)? Ex: Esteban 28")
+	fmt.Scan(&name, &age)
+	fmt.Printf("Hello %v, I can see that you are %d years old.\n", name, age)
+	if age >= 18 {
+		fmt.Print("And you can vote in the elections.\n\n")
+	} else {
+		fmt.Print("And you can't vote until you are 18.\n\n")
+	}
 }

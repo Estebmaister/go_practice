@@ -1,7 +1,6 @@
 package concurrency
 
 import (
-	"fmt"
 	// "math/big"
 	"math/rand"
 	"runtime"
@@ -9,15 +8,15 @@ import (
 	"time"
 )
 
-// Creates a pipeline with a generator of random ints,
+// Creates a pipeline with a generator of random integers,
 // filters the integers on several workers and display
 // the first n primes generated.
 // Using the fan in, fan out pattern
-func PrimesPipeline(n int) {
+func PrimesPipeline(numberOfPrimes int) {
 	CPUCount := runtime.NumCPU()
 	start := time.Now() // timer
 
-	fmt.Printf("\nPrimes pipeline for %d primes with %d CPUs\n", n, CPUCount)
+	println("\nPrimes pipeline for", numberOfPrimes, "primes with CPUs:", CPUCount)
 
 	done := make(chan struct{})
 	defer close(done) // closing all when finishing
@@ -34,11 +33,11 @@ func PrimesPipeline(n int) {
 	// fan in
 	fannedInStream := fanIn(done, primeFinderChannels...)
 
-	for filteredPrime := range take(done, fannedInStream, n) {
-		fmt.Println(filteredPrime)
+	for filteredPrime := range take(done, fannedInStream, numberOfPrimes) {
+		println(filteredPrime)
 	}
 
-	fmt.Println(time.Since(start))
+	println(time.Since(start))
 }
 
 // stream generator, loop call the func and send the result to
