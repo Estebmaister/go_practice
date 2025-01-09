@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"net/http"
 	"os"
-	"strconv"
 )
 
 // 1. Define route "/product". It should respond with details about a product specified by a query parameter (e.g. /product?category and sort=asc/desc).
@@ -29,8 +28,12 @@ type product struct {
 
 var products = make([]product, 0)
 
+const (
+	HOST = ""
+	PORT = 9090
+)
+
 func main() {
-	var port int = 8080
 	fmt.Println("Starting server")
 
 	err := json.Unmarshal(productsByte, &products)
@@ -41,11 +44,12 @@ func main() {
 	http.HandleFunc("/status", statusHandler)
 	http.HandleFunc("/products", productsHandler)
 
-	err = http.ListenAndServe(":"+strconv.Itoa(port), nil)
+	host := fmt.Sprintf("%s:%v", HOST, PORT)
+	err = http.ListenAndServe(host, nil)
 	if err != nil {
 		os.Exit(1)
 	}
-	fmt.Printf("Listening on localhost:%d\n", port)
+	fmt.Printf("Listening on localhost:%d\n", PORT)
 }
 
 func productsHandler(w http.ResponseWriter, r *http.Request) {
