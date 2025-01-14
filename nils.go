@@ -30,6 +30,18 @@ func NilDiffs() {
 		AdultNil,
 		AdultInterface,
 	) // same value printed
+
+	// Nil channels
+	var ch chan int // nil channel
+
+	select {
+	case msg := <-ch:
+		println("Received:", msg)
+	case <-ch: // This will never be selected as the channel is nil
+		println("Channel is closed or nil.")
+	default:
+		println("No data received, channel is nil.")
+	}
 }
 
 type CreditCardOwner interface {
