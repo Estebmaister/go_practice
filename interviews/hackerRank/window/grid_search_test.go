@@ -3,6 +3,7 @@ package window
 import "testing"
 
 func Test_gridPatternSearch(t *testing.T) {
+	t.Parallel()
 	type args struct {
 		G []string
 		P []string
@@ -13,13 +14,29 @@ func Test_gridPatternSearch(t *testing.T) {
 		want string
 	}{
 		{
-			name: "fail",
+			name: "success",
+			args: args{G: []string{
+				"123412",
+				"561212",
+				"123634",
+				"781288"}, P: []string{"12", "34"}},
+			want: YES,
+		}, {
+			name: "fail 1",
 			args: args{G: []string{
 				"7283455864",
 				"6731158619",
 				"8982742668",
 				"3830841210",
 				"1224754986"}, P: []string{"1234", "4321", "9999"}},
+			want: NO,
+		}, {
+			name: "fail 2",
+			args: args{G: []string{
+				"1234",
+				"4321",
+				"9999",
+				"9999"}, P: []string{"12", "21"}},
 			want: NO,
 		}, {
 			name: "border case, two adjacent pattern find",
@@ -37,10 +54,18 @@ func Test_gridPatternSearch(t *testing.T) {
 		}, {
 			name: "border case, grid and pattern length equal",
 			args: args{G: []string{
-				"11111",
-				"11111",
-				"11111",
-				"11111"}, P: []string{"11111", "11111", "11111"}},
+				"333",
+				"333",
+				"333"}, P: []string{"333", "333", "333"}},
+			want: YES,
+		}, {
+			name: "border case, pattern at beginning",
+			args: args{G: []string{
+				"111111111111111",
+				"111111111111111",
+				"111111011111111",
+				"111111111111111",
+				"111111111111111"}, P: []string{"11111", "11111", "11110"}},
 			want: YES,
 		}, {
 			name: "too small arrays",
