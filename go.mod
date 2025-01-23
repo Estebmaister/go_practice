@@ -6,6 +6,7 @@ require (
 	github.com/Jeffail/gabs/v2 v2.7.0
 	github.com/google/go-cmp v0.6.0
 	github.com/labstack/echo/v4 v4.13.3
+	github.com/pkg/errors v0.9.1
 	github.com/segmentio/kafka-go v0.4.47
 	github.com/treeder/go-hello-world v0.0.0-20190617192721-8a75f476957a
 	gorm.io/driver/sqlite v1.5.7

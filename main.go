@@ -1,10 +1,12 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/estebmaister/go_practice/concurrency"
 	// "github.com/estebmaister/go_practice/channels"
 	// "github.com/estebmaister/go_practice/server"
-	"fmt"
+	"github.com/estebmaister/go_practice/errors"
 )
 
 func printValues[A, B any, C comparable](a, a1 A, b B, c C, d B) {
@@ -12,8 +14,9 @@ func printValues[A, B any, C comparable](a, a1 A, b B, c C, d B) {
 }
 func main() {
 	println("Starting from main\n")
+	errors.Testing()
 
-	printValues(1, 2, 3, "c", 4.1)
+	printValues(1, 2, 3, "generics", 4.1)
 
 	// Greeting()
 	NilDiffs()
