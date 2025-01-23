@@ -7,12 +7,18 @@ import (
 	pkgErr "github.com/pkg/errors"
 )
 
+var (
+	errFMT      = fmt.Errorf("fmt")
+	errPkgError = pkgErr.New("pkg/errors")
+	errErrors   = errors.New("errors")
+)
+
 // ReturningError returns a specific error based on the number provided.
 // The possible values are 1, 2 and 3. Anything else returns nil.
 func ReturningError(errNumber int) error {
-	err1 := fmt.Errorf("first error occurred: fmt")
-	err2 := errors.New("second  error occurred: errors")
-	err3 := pkgErr.New("third error occurred: pkg/errors")
+	err1 := fmt.Errorf("first error occurred: %w", errFMT)
+	err2 := errors.Join(errors.New("second error occurred"), errErrors)
+	err3 := pkgErr.Wrap(errPkgError, "third error occurred")
 	switch errNumber {
 	case 1:
 		return err1
