@@ -9,9 +9,6 @@ import (
 	"github.com/estebmaister/go_practice/errors"
 )
 
-func printValues[A, B any, C comparable](a, a1 A, b B, c C, d B) {
-	fmt.Println(a, a1, b, c, d)
-}
 func main() {
 	println("Starting from main\n")
 	errors.Testing()
@@ -30,6 +27,10 @@ func main() {
 	// server.Host, server.Port
 	// )
 	// server.Run()
+}
+
+func printValues[A, B any, C comparable](a, a1 A, b B, c C, d B) {
+	fmt.Println(a, a1, b, c, d)
 }
 
 func Greeting() {

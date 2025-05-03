@@ -8,6 +8,7 @@ import (
 )
 
 func TestSplit(t *testing.T) {
+	t.Skip("Comment this skip to see go-cmp in action")
 	tests := map[string]struct {
 		input string
 		sep   string
@@ -24,15 +25,28 @@ func TestSplit(t *testing.T) {
 			t.Parallel()
 			got := Split(tc.input, tc.sep)
 
+			// Commom option reflect.DeepEqual with %v
+			if !reflect.DeepEqual(got, tc.want) {
+				t.Errorf("expected: %v, got: %v", tc.want, got)
+				// expected: [a b c], got: [a b c ]
+			}
+
 			// Option using reflect.DeepEqual with %#v
 			if !reflect.DeepEqual(got, tc.want) {
 				t.Errorf("expected: %#v, got: %#v", tc.want, got)
+				// expected: []string{"a", "b", "c"}, got: []string{"a", "b", "c", ""}
 			}
 
 			// Option using cmp.Diff
 			diff := cmp.Diff(tc.want, got)
 			if diff != "" {
 				t.Errorf("difference: %v", diff)
+				// difference:   []string{
+				//       	"a",
+				//       	"b",
+				//       	"c",
+				//     + 	"",
+				//       }
 			}
 		})
 	}
